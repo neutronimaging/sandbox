@@ -1,3 +1,2 @@
-The sand box is the playground for testing github
+The sand box is the playground for testing new language features etc.
 
-Feel free to create files and test the features in git
