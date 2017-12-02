@@ -2,7 +2,7 @@
 #define RECONDIALOG_H
 
 #include <QDialog>
-#include <ReconEngine.h>
+
 #include <logging/logger.h>
 #include <interactors/interactionbase.h>
 
@@ -13,6 +13,7 @@ class ReconDialog;
 class ReconDialog : public QDialog
 {
     Q_OBJECT
+
     kipl::logging::Logger logger;
 
 public:
@@ -20,23 +21,28 @@ public:
     ~ReconDialog();
     int progress();
     int process();
-    virtual int exec(ReconEngine *engine, bool bRerunBackProj);
+    virtual int exec(bool bRerunBackProj);
 
-private:
+signals:
+    void progressChanged(int currentProgress, int overallProgress, QString message);
+
+protected:
     Ui::ReconDialog *ui;
 
     virtual int exec() { return QDialog::exec(); }
-protected:
+
     void Abort();
     bool Finished();
 
     float fraction;
     bool finish;
-    ReconEngine * m_Engine;
+
     kipl::interactors::InteractionBase * m_Interactor;
     bool m_bRerunBackproj;
+
 private slots:
     void on_buttonCancel_clicked();
+    void setProgress(int currentProgress,int overallProgress,QString message);
 };
 
 #endif // RECONDIALOG_H

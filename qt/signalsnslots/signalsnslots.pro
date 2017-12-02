@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -22,13 +22,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+CONFIG(release, debug|release): LIBS += -L$$PWD/../../../lib/ -lkipl -lQtAddons
+else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../lib/debug -lkipl -lQtAddons
 
+INCLUDEPATH += $$PWD/../../../imagingsuite/core/kipl/kipl/include
+DEPENDPATH += $$PWD/../../../imagingsuite/core/kipl/kipl/include
+
+
+INCLUDEPATH += $$PWD/../../../imagingsuite/GUI/qt/QtAddons/
+DEPENDPATH += $$PWD/../../../imagingsuite/GUI/qt/QtAddons/
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    recondialog.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    recondialog.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    recondialog.ui
