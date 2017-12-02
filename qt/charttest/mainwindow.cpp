@@ -38,6 +38,7 @@ void MainWindow::on_pushButton_clicked()
     chart->createDefaultAxes();
     chart->axisX()->setRange(0, 20);
     chart->axisY()->setRange(0, 10);
+    chart->legend()->hide();
 
     ui->widget->setChart(chart);
     ui->widget->setRenderHint(QPainter::Antialiasing);
@@ -75,4 +76,28 @@ void MainWindow::on_pushButton_2_clicked()
 
     ui->widget->setChart(chart);
     ui->widget->setRenderHint(QPainter::Antialiasing);
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    QBoxPlotSeries *insetSeries = new QBoxPlotSeries();
+
+    QBoxSet *set0 = new QBoxSet("hepp");
+
+    set0->setValue(QBoxSet::LowerExtreme,-10.0);
+    set0->setValue(QBoxSet::UpperExtreme,15.0);
+    set0->setValue(QBoxSet::LowerQuartile,-2);
+    set0->setValue(QBoxSet::UpperQuartile,3);
+    set0->setValue(QBoxSet::Median,0);
+    insetSeries->append(set0);
+
+
+    QChart *chart = new QChart(); // Life time
+
+    chart->addSeries(insetSeries);
+
+    chart->legend()->hide();
+    chart->createDefaultAxes();
+
+    ui->widget->setChart(chart);
 }
