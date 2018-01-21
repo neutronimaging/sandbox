@@ -20,8 +20,8 @@ ReconDialog::ReconDialog(kipl::interactors::InteractionBase *interactor, QWidget
     m_bRerunBackproj(false)
 {
     ui->setupUi(this);
-    QObject::connect(this, SIGNAL(progressChanged(int , int , QString )),
-                     this, SLOT(setProgress(int ,int ,QString )));
+    QObject::connect(this, &ReconDialog::progressChanged,
+                     this, &ReconDialog::setProgress);
 }
 
 ReconDialog::~ReconDialog()
@@ -76,16 +76,11 @@ int ReconDialog::progress()
     return 0;
 }
 
-void ReconDialog::setProgress(int currentProgress,int overallProgress,QString message)
+void ReconDialog::setProgress(float currentProgress,float overallProgress,QString message)
 {
     ui->progressBar->setValue(currentProgress*100);
     ui->progressBar_overall->setValue(overallProgress*100);
     ui->label_message->setText(message);
-}
-
-void ReconDialog::progressChanged(int currentProgress,int overallProgress,QString message)
-{
-    setProgress(currentProgress,overallProgress,message);
 }
 
 int ReconDialog::process()
@@ -94,9 +89,10 @@ int ReconDialog::process()
     std::ostringstream msg;
 
     for (int i=0; i<10; ++i) {
-        m_Interactor->SetOverallProgress(i/10.0f);
+        m_Interactor->SetOverallProgress(float(i)/10.0f);
         for (int j=0; j<10; ++j) {
-            m_Interactor->SetProgress(j/10.f);
+            m_Interactor->SetProgress(float(j)/10.0f);
+            QThread::msleep(50);
         }
     }
 
