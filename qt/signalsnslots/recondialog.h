@@ -23,9 +23,6 @@ public:
     int process();
     virtual int exec(bool bRerunBackProj);
 
-signals:
-    void progressChanged(int currentProgress, int overallProgress, QString message);
-
 protected:
     Ui::ReconDialog *ui;
 
@@ -42,7 +39,10 @@ protected:
 
 private slots:
     void on_buttonCancel_clicked();
-    void setProgress(int currentProgress,int overallProgress,QString message);
+    void setProgress(float currentProgress, float overallProgress, QString message);
+
+signals:
+    void progressChanged(float currentProgress, float overallProgress, QString message);
 };
 
 #endif // RECONDIALOG_H
