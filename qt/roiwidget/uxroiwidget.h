@@ -20,13 +20,13 @@ public:
     void setROI(int x0, int y0, int x1, int y1);
     void setROI(int *roi);
     void setROI(QRect rect);
-    void setBoundingBox(int x0, int y0, int x1, int y1);
+    void setBoundingBox(int x0, int y0, int x1, int y1, bool updateFields=false);
 
     void getROI(QRect &rect);
-    void getROI(int x0, int y0, int x1, int y1);
+    void getROI(int &x0, int &y0, int &x1, int &y1);
     void getROI(int *roi);
 
-    void setLabel(const QString &lbl);
+    void setTitle(const QString &lbl);
 
 signals:
     void getROIClicked(void);
@@ -40,6 +40,8 @@ private slots:
     void on_spinY1_valueChanged(int arg1);
 
     void on_spinX1_valueChanged(int arg1);
+
+    void on_buttonGetROI_clicked();
 
 private:
     Ui::uxROIWidget *ui;
