@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>159</width>
-    <height>104</height>
+    <width>160</width>
+    <height>110</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>160</width>
-     <height>106</height>
+     <width>161</width>
+     <height>111</height>
     </rect>
    </property>
    <property name="title">
@@ -28,7 +28,7 @@
    <widget class="QSpinBox" name="spinY1">
     <property name="geometry">
      <rect>
-      <x>106</x>
+      <x>108</x>
       <y>60</y>
       <width>48</width>
       <height>18</height>
@@ -44,7 +44,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>80</y>
+      <y>82</y>
       <width>48</width>
       <height>18</height>
      </rect>
@@ -88,14 +88,17 @@
    <widget class="QPushButton" name="buttonGetROI">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>40</y>
-      <width>60</width>
-      <height>45</height>
+      <x>54</x>
+      <y>43</y>
+      <width>51</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
      <string>Get</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>

@@ -27,10 +27,7 @@ public:
     void getROI(int *roi);
 
     void setTitle(const QString &lbl);
-
-signals:
-    void getROIClicked(void);
-    void valueChanged(int x0,int y0, int x1, int y1);
+    bool setROIColor(const QString color);
 
 private slots:
     void on_spinX0_valueChanged(int arg1);
@@ -45,6 +42,10 @@ private slots:
 
 private:
     Ui::uxROIWidget *ui;
+
+signals:
+    void getROIClicked(void);
+    void valueChanged(int x0,int y0, int x1, int y1);
 };
 
 #endif // UXROIWIDGET_H

@@ -1,12 +1,15 @@
 #include "uxroiwidget.h"
 #include "ui_uxroiwidget.h"
 
+#include <QColor>
+
 uxROIWidget::uxROIWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::uxROIWidget)
 {
     ui->setupUi(this);
     setROI(0,0,100,100);
+    ui->buttonGetROI->setStyleSheet("border-color: darkgray;border-width: 2px; border-style: solid");
 }
 
 uxROIWidget::~uxROIWidget()
@@ -81,6 +84,19 @@ void uxROIWidget::setTitle(const QString &lbl)
     ui->groupROI->setTitle(lbl);
 }
 
+bool uxROIWidget::setROIColor(const QString color)
+{
+    if (QColor::isValidColor(color)==false)
+        return false;
+
+    QString style="border-color: ";
+    style += color + "; border-width: 2px; border-style: solid";
+
+    ui->buttonGetROI->setStyleSheet(style);
+
+    return true;
+}
+
 void uxROIWidget::on_spinX0_valueChanged(int arg1)
 {
     ui->spinX1->setMinimum(arg1+1);
@@ -116,4 +132,5 @@ void uxROIWidget::on_spinX1_valueChanged(int arg1)
 void uxROIWidget::on_buttonGetROI_clicked()
 {
     emit getROIClicked();
+    repaint();
 }
