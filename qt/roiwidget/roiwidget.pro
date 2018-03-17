@@ -27,11 +27,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    uxroiwidget.cpp
+    uxroiwidget.cpp \
+    customdial.cpp
 
 HEADERS += \
         mainwindow.h \
-    uxroiwidget.h
+    uxroiwidget.h \
+    customdial.h
 
 FORMS += \
         mainwindow.ui \
