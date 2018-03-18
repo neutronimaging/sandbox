@@ -8,8 +8,30 @@
 #include <QResizeEvent>
 
 CustomDial::CustomDial(QWidget* parent)
-: QDial(parent)
-{ }
+: QDial(parent),
+  arcRect_(new QRectF),
+  valueRect_(new QRectF),
+  textRect_(new QRectF),
+  arcColor_(new QColor),
+  arcPen_(new QPen)
+{
+    QDial::setRange(0.0, 360.0);
+
+    QDial::setCursor(Qt::PointingHandCursor);
+
+    connect(this, &QDial::valueChanged,
+            this, &CustomDial::updateValue);
+
+    setMinimumSize(100,100);
+
+    setMaximumAngle(-360);
+
+    setStartAngle(270);
+
+    updateValue();
+
+    update();
+}
 
 CustomDial::CustomDial(const QString& text,
                        QWidget* parent,
@@ -35,11 +57,14 @@ CustomDial::CustomDial(const QString& text,
     setMaximumAngle(-360);
 
     setStartAngle(270);
+    setArcWidth(2.0);
 
     updateValue();
+
+    update();
+
+
 }
-
-
 
 void CustomDial::paintEvent(QPaintEvent*)
 {
@@ -65,16 +90,22 @@ void CustomDial::paintEvent(QPaintEvent*)
 
     // Draw background circle
     painter.drawEllipse(QDial::rect());
+    qDebug("%d, %d, %d, %d",QDial::rect().x(),QDial::rect().y(),QDial::rect().width(),QDial::rect().height());
 
     painter.setPen(textPen);
 
-    painter.drawText(*textRect_, Qt::AlignHCenter | Qt::AlignBottom, text_);
 
-    painter.drawText(*valueRect_, Qt::AlignCenter, valueString_);
+
 
     painter.setPen(*arcPen_);
+    qDebug("%f, %f, %f, %f, (%f -> %f)",arcRect_->x(),arcRect_->y(),arcRect_->width(),arcRect_->height(),startAngle_,angleSpan_);
+//    painter.drawArc(*arcRect_, startAngle_, angleSpan_);
+    painter.setBrush(Qt::red);
+        painter.drawPie(*arcRect_, startAngle_, angleSpan_);
 
-    painter.drawArc(*arcRect_, startAngle_, angleSpan_);
+        painter.drawText(*textRect_, Qt::AlignHCenter | Qt::AlignBottom, text_);
+
+        painter.drawText(*valueRect_, Qt::AlignCenter, valueString_);
 
 }
 
@@ -94,8 +125,6 @@ void CustomDial::resizeEvent(QResizeEvent* event)
                        arcWidth_ / 2,
                        QDial::width() - arcWidth_,
                        QDial::height() - arcWidth_);
-
-    QDial::resizeEvent(event);
 }
 
 void CustomDial::updateValue()
