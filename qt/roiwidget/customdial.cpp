@@ -6,6 +6,9 @@
 #include <QRectf>
 #include <QPen>
 #include <QResizeEvent>
+#include <QtMath>
+
+#include <cmath>
 
 CustomDial::CustomDial(QWidget* parent)
 : QDial(parent),
@@ -29,6 +32,7 @@ CustomDial::CustomDial(QWidget* parent)
     setStartAngle(270);
 
     updateValue();
+    setNotchesVisible(true);
 
     update();
 }
@@ -60,10 +64,30 @@ CustomDial::CustomDial(const QString& text,
     setArcWidth(2.0);
 
     updateValue();
+    setNotchesVisible(true);
 
     update();
 
 
+}
+
+void CustomDial::mousePressEvent(QMouseEvent *e)
+{
+    if (//d->maximum == d->minimum ||
+        (e->button() != Qt::LeftButton)  ||
+        (e->buttons() ^ e->button())) {
+        e->ignore();
+        return;
+    }
+    e->accept();
+    int x=valueFromPoint(e->pos());
+    qDebug("%d",x);
+    setSliderPosition(x);
+    // ### This isn't quite right,
+    // we should be doing a hit test and only setting this if it's
+    // the actual dial thingie (similar to what QSlider does), but we have no
+    // subControls for QDial.
+    setSliderDown(true);
 }
 
 void CustomDial::paintEvent(QPaintEvent*)
@@ -196,4 +220,50 @@ void CustomDial::setArcColor(const QString& color)
 QString CustomDial::getArcColor() const
 {
     return arcColor_->name();
+}
+
+int CustomDial::valueFromPoint(const QPoint &p)
+{
+    double yy = height()/2.0 - p.y();
+    double xx = p.x() - width()/2.0;
+    double a = (xx || yy) ? std::atan2(yy, xx) : 0;
+
+    if (a < M_PI / -2)
+        a = a + M_PI * 2;
+
+    int dist = 0;
+    int minv = minimum(), maxv = maximum();
+
+
+    if (minimum() < 0) {
+        dist = -minimum();
+        minv = 0;
+        maxv = maximum() + dist;
+    }
+
+    int r = maxv - minv;
+    int v;
+    if (wrapping())
+        v =  (int)(0.5 + minv + r * (M_PI * 3 / 2 - a) / (2 * M_PI));
+    else
+        v =  (int)(0.5 + minv + r* (M_PI * 4 / 3 - a) / (M_PI * 10 / 6));
+
+    if (dist > 0)
+        v -= dist;
+
+    return !invertedAppearance() ? bound(v) : maximum() - bound(v);
+}
+
+int CustomDial::bound(int val)
+{
+    if (wrapping()) {
+        if ((val >= minimum()) && (val <= maximum()))
+            return val;
+        val = minimum() + ((val - minimum()) % (maximum() - minimum()));
+        if (val < minimum())
+            val += maximum() - minimum();
+        return val;
+    } else {
+        return bound(val);
+    }
 }

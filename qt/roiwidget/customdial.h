@@ -65,6 +65,11 @@ private:
 
     virtual void resizeEvent(QResizeEvent* event) override;
 
+    virtual void mousePressEvent(QMouseEvent* event) override;
+
+    int valueFromPoint(const QPoint &p);
+    int bound(int val);
+
     double maximumAngleSpan_;
 
     double startAngle_;
