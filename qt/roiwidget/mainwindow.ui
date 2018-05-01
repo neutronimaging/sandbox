@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>440</width>
+    <height>431</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -73,13 +73,32 @@
      <string>TextLabel</string>
     </property>
    </widget>
+   <widget class="CustomDial" name="dial">
+    <property name="geometry">
+     <rect>
+      <x>289</x>
+      <y>220</y>
+      <width>71</width>
+      <height>64</height>
+     </rect>
+    </property>
+    <property name="sliderPosition">
+     <number>0</number>
+    </property>
+    <property name="invertedControls">
+     <bool>false</bool>
+    </property>
+    <property name="wrapping">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>440</width>
      <height>22</height>
     </rect>
    </property>
@@ -101,6 +120,11 @@
    <extends>QWidget</extends>
    <header>uxroiwidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CustomDial</class>
+   <extends>QDial</extends>
+   <header>customdial.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

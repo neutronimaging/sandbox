@@ -1,15 +1,14 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-03-15T20:53:54
+# Project created by QtCreator 2018-03-20T07:55:21
 #
 #-------------------------------------------------
 
 QT       += core gui
-CONFIG += c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = roiwidget
+TARGET = modelessdlg
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -27,14 +26,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    uxroiwidget.cpp \
-    customdial.cpp
+    modelessdialog.cpp
 
 HEADERS += \
         mainwindow.h \
-    uxroiwidget.h \
-    customdial.h
+    modelessdialog.h
 
 FORMS += \
         mainwindow.ui \
-    uxroiwidget.ui
+    modelessdialog.ui
