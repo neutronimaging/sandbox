@@ -101,3 +101,17 @@ void MainWindow::on_pushButton_3_clicked()
 
     ui->widget->setChart(chart);
 }
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    //ui->widget->grab();
+
+    QPdfWriter writer("/Users/kaestner/out.pdf");
+    writer.setPageSize(QPagedPaintDevice::A4);
+
+    QPainter painter(&writer);
+
+    ui->widget->render(&painter);
+
+    painter.end();
+}
