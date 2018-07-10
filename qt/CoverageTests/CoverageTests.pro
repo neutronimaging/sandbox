@@ -25,6 +25,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+mac {
+    QMAKE_CXXFLAGS += --coverage
+    QMAKE_LFLAGS += --coverage
+}
 
 SOURCES += \
         tst_coverageteststest.cpp
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-CoverageDummies-Desktop_Qt_5_10_1_clang_64bit-Debug/release/ -lCoverageDummies.1.0.0
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-CoverageDummies-Desktop_Qt_5_10_1_clang_64bit-Debug/debug/ -lCoverageDummies.1.0.0
+else:unix: LIBS += -L$$PWD/../build-CoverageDummies-Desktop_Qt_5_10_1_clang_64bit-Debug/ -lCoverageDummies.1.0.0
+
+INCLUDEPATH += $$PWD/../CoverageDummies
+DEPENDPATH += $$PWD/../CoverageDummies
+
+DISTFILES += \
+    runCoverage.sh

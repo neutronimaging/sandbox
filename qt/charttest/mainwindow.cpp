@@ -12,6 +12,7 @@
 #include <QMarginsF>
 #endif
 #include <QSvgGenerator>
+#include <QTextStream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -133,21 +134,23 @@ void MainWindow::on_pushButton_5_clicked()
     printer.setOutputFileName(fileName);
     printer.setPageMargins(QMarginsF(25.0,25.0,25.0,25.0));
 
-//    QSvgGenerator generator;
-////        generator.setFileName(path);
-//        generator.set
-//        generator.setSize(QSize(200, 200));
-//        generator.setViewBox(QRect(0, 0, 200, 200));
-//        generator.setTitle(tr("SVG Generator Example Drawing"));
-//        generator.setDescription(tr("An SVG drawing created by the SVG Generator "
-//                                    "Example provided with Qt."));
-//        QPainter painter;
-//        painter.begin(&generator);
-//        displayWidget->paint(painter);
-//        painter.end();
+    QString svgfname="/Users/kaestner/test.svg";
+    QSvgGenerator generator;
+    generator.setFileName(svgfname);
+    generator.setSize(QSize(1024, 1024));
+    generator.setViewBox(QRect(0, 0, 1024, 1024));
+    generator.setTitle(tr("SVG Generator Example Drawing"));
+
+    QPainter painter;
+    painter.begin(&generator);
+    ui->widget->render(&painter);
+    painter.end();
+
+
     QTextDocument doc;
-    doc.setHtml("<h1>Hello, World!</h1>\n<p>Lorem ipsum dolor sit amet, consectitur adipisci elit.</p>");
-    QString svg=ui->widget->render();
+   doc.setHtml("<h1>Hello, World!</h1>\n<p>Lorem ipsum dolor sit amet, consectitur adipisci elit.</p><h2>The plot</h2><br\> <img src=\"/Users/kaestner/test.svg\" width=\"256\" alt=\"Kiwi standing on oval\" />");
+    //doc.setHtml(s);
+
     doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
     doc.print(&printer);
 
