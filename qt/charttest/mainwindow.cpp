@@ -7,6 +7,11 @@
 #include <QPen>
 #include <QLinearGradient>
 #include <QChart>
+#ifndef QT_NO_PRINTER
+#include <QPrinter>
+#include <QMarginsF>
+#endif
+#include <QSvgGenerator>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -114,4 +119,36 @@ void MainWindow::on_pushButton_4_clicked()
     ui->widget->render(&painter);
 
     painter.end();
+}
+
+void MainWindow::on_pushButton_5_clicked()
+{
+
+    QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Export PDF", QString(), "*.pdf");
+    if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
+
+    QPrinter printer(QPrinter::PrinterResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setPaperSize(QPrinter::A4);
+    printer.setOutputFileName(fileName);
+    printer.setPageMargins(QMarginsF(25.0,25.0,25.0,25.0));
+
+//    QSvgGenerator generator;
+////        generator.setFileName(path);
+//        generator.set
+//        generator.setSize(QSize(200, 200));
+//        generator.setViewBox(QRect(0, 0, 200, 200));
+//        generator.setTitle(tr("SVG Generator Example Drawing"));
+//        generator.setDescription(tr("An SVG drawing created by the SVG Generator "
+//                                    "Example provided with Qt."));
+//        QPainter painter;
+//        painter.begin(&generator);
+//        displayWidget->paint(painter);
+//        painter.end();
+    QTextDocument doc;
+    doc.setHtml("<h1>Hello, World!</h1>\n<p>Lorem ipsum dolor sit amet, consectitur adipisci elit.</p>");
+    QString svg=ui->widget->render();
+    doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
+    doc.print(&printer);
+
 }
