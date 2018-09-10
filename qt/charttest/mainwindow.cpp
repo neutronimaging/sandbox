@@ -134,22 +134,25 @@ void MainWindow::on_pushButton_5_clicked()
     printer.setOutputFileName(fileName);
     printer.setPageMargins(QMarginsF(25.0,25.0,25.0,25.0));
 
-    QString svgfname="/Users/kaestner/test.svg";
+    QString svgfname=QDir::homePath()+"/figtemp.svg";
     QSvgGenerator generator;
     generator.setFileName(svgfname);
     generator.setSize(QSize(1024, 1024));
     generator.setViewBox(QRect(0, 0, 1024, 1024));
     generator.setTitle(tr("SVG Generator Example Drawing"));
 
-    QPainter painter;
-    painter.begin(&generator);
+    QPainter painter(&generator);
+//    painter.begin(&generator);
     ui->widget->render(&painter);
     painter.end();
 
 
     QTextDocument doc;
-   doc.setHtml("<h1>Hello, World!</h1>\n<p>Lorem ipsum dolor sit amet, consectitur adipisci elit.</p><h2>The plot</h2><br\> <img src=\"/Users/kaestner/test.svg\" width=\"256\" alt=\"Kiwi standing on oval\" />");
-    //doc.setHtml(s);
+    QTextCursor cursor(&doc);
+   doc.setHtml("<h1>Hello, World!</h1>\n<p>Lorem ipsum dolor sit amet, consectitur adipisci elit.</p><h2>The plot</h2><br/> <img src=\"/Users/kaestner/test.svg\" width=\"256\" alt=\"Kiwi standing on oval\" />");
+    cursor.insertHtml("<br/>");
+    doc.drawContents(&painter);
+       cursor.insertHtml("<p>test</p>");
 
     doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
     doc.print(&printer);
