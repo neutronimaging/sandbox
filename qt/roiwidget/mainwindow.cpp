@@ -3,11 +3,13 @@
 
 #include <iostream>
 #include <sstream>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    cnt(0)
+    cnt(0),
+    incval(1)
 {
     ui->setupUi(this);
     ui->widget->setTitle("My ROI");
@@ -48,3 +50,14 @@ void MainWindow::on_pushButton_clicked()
     ui->spinBox->setValue(cnt);
 }
 
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    ui->spinBox_2->setValue(ui->spinBox_2->value()+1);
+}
+
+void MainWindow::on_groupBox_toggled(bool arg1)
+{
+    incval=arg1 ? 1:-1;
+    qDebug()<<"toggled";
+}
