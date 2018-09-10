@@ -1,0 +1,12 @@
+#ifndef PYBINDTEST_GLOBAL_H
+#define PYBINDTEST_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(PYBINDTEST_LIBRARY)
+#  define PYBINDTESTSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define PYBINDTESTSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // PYBINDTEST_GLOBAL_H

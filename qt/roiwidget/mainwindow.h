@@ -22,9 +22,14 @@ public slots:
 private slots:
     void on_pushButton_clicked();
 
+    void on_pushButton_2_clicked();
+
+    void on_groupBox_toggled(bool arg1);
+
 private:
     Ui::MainWindow *ui;
     int cnt;
+    int incval;
 };
 
 #endif // MAINWINDOW_H
