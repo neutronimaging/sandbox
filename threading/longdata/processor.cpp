@@ -51,6 +51,22 @@ int Processor::runp(float *pSrc, float *pDst, float value)
     return 0;
 }
 
+int Processor::runps(float *pSrc, float *pDst, float value)
+{
+    auto nThreads = std::thread::hardware_concurrency();
+    std::list<std::thread> tlist;
+
+    size_t end=nData-nThreads;
+    for (auto i=0; i<nThreads; ++i) {
+        tlist.push_back(std::thread([=] { process(pSrc+i, pSrc+end+i,pDst+i,nThreads,value); }));
+    }
+
+    for (auto it=tlist.begin(); it!=tlist.end();++it)
+        it->join();
+
+    return 0;
+}
+
 int Processor::tester(size_t N)
 {
     nData = N;
@@ -58,25 +74,36 @@ int Processor::tester(size_t N)
     data=new float[nData];
     dest1=new float[nData];
     dest2=new float[nData];
+    dest3=new float[nData];
 
-    for (size_t i=0; i<nData; ++i)
+    for (size_t i=0; i<nData; ++i) {
         data[i]=static_cast<float>(i);
+    }
 
     auto start_time = std::chrono::high_resolution_clock::now();
     runp(data, dest1,5.0f);
 
     auto end_time = std::chrono::high_resolution_clock::now();
     auto tduration=end_time - start_time;
-    std::cout << std::chrono::duration_cast<std::chrono::seconds>(tduration).count() << ":";
-    std::cout << std::chrono::duration_cast<std::chrono::microseconds>(tduration).count() << std::endl;
+    std::cout << std::chrono::duration_cast<std::chrono::seconds>(tduration).count() << "s : ";
+    std::cout << std::chrono::duration_cast<std::chrono::microseconds>(tduration).count() << "us"<<std::endl;
+
+    start_time = std::chrono::high_resolution_clock::now();
+    runps(data, dest3,5.0f);
+
+    end_time = std::chrono::high_resolution_clock::now();
+
+    auto tsduration=end_time - start_time;
+    std::cout << std::chrono::duration_cast<std::chrono::seconds>(tsduration).count() << "s : ";
+    std::cout << std::chrono::duration_cast<std::chrono::microseconds>(tsduration).count() << "us"<<std::endl;
 
     start_time = std::chrono::high_resolution_clock::now();
     run(data, dest2,5.0f);
 
     end_time = std::chrono::high_resolution_clock::now();
     auto sduration=end_time - start_time;
-    std::cout << std::chrono::duration_cast<std::chrono::seconds>(sduration).count() << ":";
-    std::cout << std::chrono::duration_cast<std::chrono::microseconds>(sduration).count() << std::endl;
+    std::cout << std::chrono::duration_cast<std::chrono::seconds>(sduration).count() << "s : ";
+    std::cout << std::chrono::duration_cast<std::chrono::microseconds>(sduration).count() << "us"<<std::endl;
 
     std::cout<<"Speedup = "<<std::chrono::duration<float>(sduration)/
                              std::chrono::duration<float>(tduration)<<std::endl;
@@ -96,7 +123,17 @@ int Processor::process(float *srcStart, float *srcEnd, float *dst, float value)
 {
     for (float *s=srcStart,*d=dst; s!=srcEnd; ++s, ++d)
     {
-        (*d)=(*s) * value;
+        (*d)+=(*s) * value;
+    }
+
+    return 0;
+}
+
+int Processor::process(float *srcStart, float *srcEnd, float *dst, size_t stride,float value)
+{
+    for (float *s=srcStart,*d=dst; s!=srcEnd; s+=stride, d+=stride)
+    {
+        (*d)+=(*s) * value;
     }
 
     return 0;
