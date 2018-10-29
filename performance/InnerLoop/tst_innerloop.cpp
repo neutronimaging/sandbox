@@ -12,16 +12,17 @@ public:
     ~InnerLoop();
 
 private slots:
-    void test_case1();
-    void test_case2();
-    void test_case3();
+    void test_original();
+    void test_tuned();
+    void test_thread();
+    void test_async();
 private:
     int N;
 
 };
 
 InnerLoop::InnerLoop() :
-    N(1e7)
+    N(1e9)
 {
 
 }
@@ -31,7 +32,7 @@ InnerLoop::~InnerLoop()
 
 }
 
-void InnerLoop::test_case1()
+void InnerLoop::test_original()
 {
     Loops test(N);
 
@@ -42,7 +43,7 @@ void InnerLoop::test_case1()
 
 }
 
-void InnerLoop::test_case2()
+void InnerLoop::test_tuned()
 {
     Loops test(N);
 
@@ -51,7 +52,7 @@ void InnerLoop::test_case2()
     }
 }
 
-void InnerLoop::test_case3()
+void InnerLoop::test_thread()
 {
     Loops test(N);
 
@@ -60,6 +61,14 @@ void InnerLoop::test_case3()
     }
 }
 
+void InnerLoop::test_async()
+{
+    Loops test(N);
+
+    QBENCHMARK {
+        test.async();
+    }
+}
 QTEST_APPLESS_MAIN(InnerLoop)
 
 #include "tst_innerloop.moc"

@@ -3,8 +3,12 @@
 
 #include <algorithm>
 #include <thread>
+#include <future>
 #include <vector>
 #include <list>
+
+void tunedLoop(float *src, float *dest, float value, int N);
+void originalLoop(float *src, float * dest, float value, int N);
 
 Loops::Loops(int N) :
     data(new float[N]),
@@ -25,7 +29,7 @@ Loops::~Loops()
 
 void Loops::original()
 {
-    orignalLoop(data,result,20.0f,nData);
+    originalLoop(data,result,20.0f,nData);
 }
 
 void Loops::tuned()
@@ -38,17 +42,17 @@ void Loops::threaded()
     threadLoop(data,result,20.0f,nData);
 }
 
-void Loops::orignalLoop(float *src, float * dest, float value, int N)
+void Loops::async()
 {
-    for (int j=0; j<N; j++) {
-        dest[j]+=src[j]*value;
-    }
+    threadLoop(data,result,20.0f,nData);
 }
+
+
 
 void Loops::threadLoop(float *src, float * dest, float value, int N)
 {
     auto nThreads = static_cast<int>(std::thread::hardware_concurrency());
-    int blockSize=nData / nThreads;
+    int blockSize=N / nThreads;
     blockSize-=blockSize % 4;
 
     std::list<std::thread> tlist;
@@ -56,16 +60,38 @@ void Loops::threadLoop(float *src, float * dest, float value, int N)
 
     for (auto i=0; i<nThreads; ++i) {
         tlist.push_back(std::thread([=] { tunedLoop(src+begin,dest+begin,value, blockSize); }));
+
         begin+=blockSize;
 
     }
 
     for (auto it=tlist.begin(); it!=tlist.end();++it)
         it->join();
+}
+
+void Loops::asyncLoop(float *src, float * dest, float value, int N)
+{
+    auto nThreads = static_cast<int>(std::thread::hardware_concurrency());
+    int blockSize=nData / nThreads;
+    blockSize-=blockSize % 4;
+
+    int begin=0;
+
+    for (auto i=0; i<nThreads; ++i) {
+        std::async(std::launch::async,tunedLoop,src+begin,dest+begin,value, blockSize);
+        begin+=blockSize;
+    }
 
 }
 
-void Loops::tunedLoop(float *src, float *dest, float value, int N)
+void originalLoop(float *src, float * dest, float value, int N)
+{
+    for (int j=0; j<N; j++) {
+        dest[j]+=src[j]*value;
+    }
+}
+
+void tunedLoop(float *src, float *dest, float value, int N)
 {
     int N4=N/4;
 
@@ -73,9 +99,11 @@ void Loops::tunedLoop(float *src, float *dest, float value, int N)
     __m128 * dest128 = reinterpret_cast<__m128 *>(dest);
 
     __m128 val128=_mm_set1_ps(value);
+    __m128 *pEnd=src128+N4;
 
-    for (int j=0; j<N4; ++j,++dest128,++src128) {
+    for (auto s=src128, d=dest128; s!=pEnd; ++s,++d) {
         //dest[j]+=src[j]*value;
-        *dest128=_mm_add_ps(*dest128,_mm_mul_ps(*src128,val128));
+        *d=_mm_add_ps(*d,_mm_mul_ps(*s,val128));
+
     }
 }
