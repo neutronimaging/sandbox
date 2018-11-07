@@ -1,7 +1,9 @@
+#include "pybindtest_global.h"
 #include "pybindtest.h"
 #include <pybind11/pybind11.h>
+namespace py = pybind11;
 
-int add(int i, int j)
+float PYBINDTESTSHARED_EXPORT add(float i, float j)
 {
     return i + j;
 }
