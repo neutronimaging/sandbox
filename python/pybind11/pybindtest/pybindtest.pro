@@ -50,15 +50,19 @@ INCLUDEPATH += ../../../../imagingsuite/external/src/pybind11/2.2.3/include/
 
 # these are from python config on the cmd line
 # Settings for mac port python 3.6
-#QMAKE_CXXFLAGS += -I/opt/local/Library/Frameworks/Python.framework/Versions/3.6/include/python3.6m -I/Users/kaestner/Library/Python/3.6/include/python3.6m -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -pipe -Os
-#LIBS += -L/opt/local/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/config-3.6m-darwin -lpython3.6m -ldl -framework CoreFoundation
+QMAKE_CXXFLAGS += -I/opt/local/Library/Frameworks/Python.framework/Versions/3.6/include/python3.6m -I/Users/kaestner/Library/Python/3.6/include/python3.6m -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -pipe -Os
+LIBS += -L/opt/local/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/config-3.6m-darwin -lpython3.6m -ldl -framework CoreFoundation
 
 # Settings for anaconda python 3.6
 
 QMAKE_CXXFLAGS += -fPIC -I/Users/kaestner/anaconda3/include/python3.6m -I/Users/kaestner/.local/include/python3.6m -Wno-unused-result -Wsign-compare -Wunreachable-code -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -I/anaconda3/include -arch x86_64
 LIBS += -L/Users/kaestner/anaconda3/lib/python3.6/config-3.6m-darwin -lpython3.6m -ldl -framework CoreFoundation
+#QMAKE_CXXFLAGS += -I/anaconda3/include/python3.6m -Wno-unused-result -Wsign-compare -Wunreachable-code -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -I/anaconda3/include -arch x86_64
+#LIBS += -L/anaconda3/lib/python3.6/config-3.6m-darwin -lpython3.6m -ldl -framework CoreFoundation
 
 # Setting work with default python 2.7
 #QMAKE_CXXFLAGS += -I/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -I/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -fno-strict-aliasing -fno-common -dynamic -arch x86_64 -arch i386 -g -Os -pipe -fno-common -fno-strict-aliasing -fwrapv -DENABLE_DTRACE -DMACOSX -DNDEBUG -Wall -Wstrict-prototypes -Wshorten-64-to-32 -DNDEBUG -g -fwrapv -Os -Wall -Wstrict-prototypes -DENABLE_DTRACE
 #LIBS += -L/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config -lpython2.7 -ldl -framework CoreFoundation
 
+DISTFILES += \
+    tester.py
