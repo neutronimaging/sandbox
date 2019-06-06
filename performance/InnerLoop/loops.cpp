@@ -10,7 +10,7 @@
 
 void tunedLoop(float *src, float *dest, float value, int N);
 void originalLoop(float *src, float * dest, float value, int N);
-void stlLoop(float *src, float * dest, float value, int N)
+void stlLoop(float *src, float * dest, float value, int N);
 
 Loops::Loops(int N) :
     data(new float[N]),
@@ -94,13 +94,13 @@ void Loops::asyncLoop(float *src, float * dest, float value, int N)
 void Loops::stlLoop(float *src, float * dest, float value, int N)
 {
 
-    auto p = std::execution::par;
-    std::for_each(p, indices.begin(), indices.end(), [&mice](size_t i)
-        {
-            if (i == 0) mice[i] += " is first.";
-            else if (i + 1 == mice.size()) mice[i] += " is last.";
-        }
-    );
+//    auto p = std::execution::par;
+//    std::for_each(p, indices.begin(), indices.end(), [&mice](size_t i)
+//        {
+//            if (i == 0) mice[i] += " is first.";
+//            else if (i + 1 == mice.size()) mice[i] += " is last.";
+//        }
+//    );
 }
 
 void originalLoop(float *src, float * dest, float value, int N)

@@ -12,6 +12,7 @@
 #include <QMarginsF>
 #endif
 #include <QSvgGenerator>
+#include <QPdfWriter>
 #include <QTextStream>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -125,7 +126,7 @@ void MainWindow::on_pushButton_4_clicked()
 void MainWindow::on_pushButton_5_clicked()
 {
 
-    QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Export PDF", QString(), "*.pdf");
+    QString fileName = QFileDialog::getSaveFileName(nullptr, "Export PDF", QString(), "*.pdf");
     if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
 
     QPrinter printer(QPrinter::PrinterResolution);
@@ -136,13 +137,13 @@ void MainWindow::on_pushButton_5_clicked()
 
     QString svgfname=QDir::homePath()+"/figtemp.svg";
     QSvgGenerator generator;
-    generator.setFileName(svgfname);
+ //   generator.setFileName(svgfname);
     generator.setSize(QSize(1024, 1024));
     generator.setViewBox(QRect(0, 0, 1024, 1024));
     generator.setTitle(tr("SVG Generator Example Drawing"));
 
     QPainter painter(&generator);
-//    painter.begin(&generator);
+    painter.begin(&generator);
     ui->widget->render(&painter);
     painter.end();
 
@@ -152,7 +153,8 @@ void MainWindow::on_pushButton_5_clicked()
    doc.setHtml("<h1>Hello, World!</h1>\n<p>Lorem ipsum dolor sit amet, consectitur adipisci elit.</p><h2>The plot</h2><br/> <img src=\"/Users/kaestner/test.svg\" width=\"256\" alt=\"Kiwi standing on oval\" />");
     cursor.insertHtml("<br/>");
     doc.drawContents(&painter);
-       cursor.insertHtml("<p>test</p>");
+    cursor.insertHtml("<br/>");
+    cursor.insertHtml("<p>test</p>");
 
     doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
     doc.print(&printer);
