@@ -4,6 +4,10 @@ int main(int argc, char *argv[])
 {
     Processor p;
 
-    p.tester(1000000000UL);
+    const size_t N=1024UL;
+//    p.tester(N*N*N);
+
+
+    p.ftester(N*N*N);
     return 0;
 }

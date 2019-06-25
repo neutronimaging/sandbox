@@ -54,6 +54,9 @@ QMAKE_CXXFLAGS += -I/opt/local/Library/Frameworks/Python.framework/Versions/3.6/
 LIBS += -L/opt/local/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/config-3.6m-darwin -lpython3.6m -ldl -framework CoreFoundation
 
 # Settings for anaconda python 3.6
+
+QMAKE_CXXFLAGS += -fPIC -I/Users/kaestner/anaconda3/include/python3.6m -I/Users/kaestner/.local/include/python3.6m -Wno-unused-result -Wsign-compare -Wunreachable-code -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -I/anaconda3/include -arch x86_64
+LIBS += -L/Users/kaestner/anaconda3/lib/python3.6/config-3.6m-darwin -lpython3.6m -ldl -framework CoreFoundation
 #QMAKE_CXXFLAGS += -I/anaconda3/include/python3.6m -Wno-unused-result -Wsign-compare -Wunreachable-code -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -I/anaconda3/include -arch x86_64
 #LIBS += -L/anaconda3/lib/python3.6/config-3.6m-darwin -lpython3.6m -ldl -framework CoreFoundation
 
