@@ -8,6 +8,7 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
+LIBS += -lpthread
 SOURCES +=  tst_innerloop.cpp \
     loops.cpp
 
