@@ -22,7 +22,7 @@ private:
 };
 
 InnerLoop::InnerLoop() :
-    N(1e9)
+    N(1e6)
 {
 
 }
