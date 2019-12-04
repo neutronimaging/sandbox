@@ -5,6 +5,7 @@
 #include <QPointF>
 #include <QAreaSeries>
 #include <QPen>
+#include <QDir>
 #include <QLinearGradient>
 #include <QChart>
 #ifndef QT_NO_PRINTER
@@ -46,9 +47,12 @@ void MainWindow::on_pushButton_clicked()
     chart->axisX()->setRange(0, 20);
     chart->axisY()->setRange(0, 10);
     chart->legend()->hide();
+    chart->axisX()->setTitleText("test");
+    chart->axisY()->setTitleText("value");
 
     ui->widget->setChart(chart);
     ui->widget->setRenderHint(QPainter::Antialiasing);
+
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -159,4 +163,32 @@ void MainWindow::on_pushButton_5_clicked()
     doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
     doc.print(&printer);
 
+}
+
+void MainWindow::on_pushButton_6_clicked()
+{
+    int N=ui->spinBox->value();
+
+    QLineSeries *series0 = new QLineSeries();
+    QLineSeries *series1 = new QLineSeries();
+
+    for (int i=0; i<N; ++i)
+    {
+        *series0 << QPointF(static_cast<double>(i), std::rand()) ;
+        *series1 << QPointF(static_cast<double>(i), std::rand()) ;
+    }
+    QChart *chart = new QChart();
+
+    chart->addSeries(series0);
+    chart->addSeries(series1);
+
+    chart->createDefaultAxes();
+//    chart->axisX()->setRange(0, 20);
+//    chart->axisY()->setRange(0, 10);
+    chart->legend()->hide();
+    chart->axisX()->setTitleText("test");
+    chart->axisY()->setTitleText("value");
+
+    ui->widget->setChart(chart);
+    ui->widget->setRenderHint(QPainter::Antialiasing);
 }
