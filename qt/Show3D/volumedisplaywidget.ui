@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VolumeDisplayWidget</class>
+ <widget class="QWidget" name="VolumeDisplayWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1036</width>
+    <height>845</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QWidget" name="volumeView" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>256</width>
+       <height>256</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="groupBoxXY">
+     <property name="title">
+      <string>XY-plane</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QtAddons::ImageViewerWidget" name="viewXY" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>256</width>
+          <height>256</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QScrollBar" name="scrollXY">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="groupBoxXZ">
+     <property name="title">
+      <string>XZ-plane</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QtAddons::ImageViewerWidget" name="viewXZ" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>256</width>
+          <height>256</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QScrollBar" name="scrollXZ">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QGroupBox" name="groupBoxYZ">
+     <property name="title">
+      <string>YZ-plane</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QtAddons::ImageViewerWidget" name="viewYZ" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>256</width>
+          <height>256</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QScrollBar" name="scrollYZ">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QtAddons::ImageViewerWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">imageviewerwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
