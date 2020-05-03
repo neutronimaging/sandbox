@@ -17,5 +17,10 @@ int main(int argc, char *argv[])
         std::cout<< item.first << ", " << item.second <<std::endl;
     }
 
+    for (auto &[key,value] : a)
+    {
+
+        std::cout<< key<<": " <<value.first << ", " << value.second <<std::endl;
+    }
     return 0;
 }
