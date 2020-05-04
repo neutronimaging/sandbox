@@ -24,9 +24,5 @@ void MainWindow::on_actionLoad_triggered()
 {
     QString fname=QFileDialog::getOpenFileName(this,"Select image file to open",QDir::homePath());
 
-    ImageReader reader;
-
     kipl::io::ReadTIFF(img,fname.toStdString().c_str());
-
-
 }

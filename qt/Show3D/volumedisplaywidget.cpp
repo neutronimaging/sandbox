@@ -20,7 +20,7 @@ VolumeDisplayWidget::VolumeDisplayWidget(QWidget *parent) :
         throw kipl::base::KiplException("Failed to open 3D graphics view");
     }
 
-    ui->gridLayout->addWidget(container);
+    ui->gridLayout->addWidget(container,0,0);
 }
 
 VolumeDisplayWidget::~VolumeDisplayWidget()
