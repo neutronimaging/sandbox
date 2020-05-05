@@ -20,6 +20,8 @@ public:
 private slots:
     void on_actionLoad_triggered();
     
+    void on_pushButtonRenderSphere_clicked();
+
 private:
     Ui::MainWindow *ui;
 
