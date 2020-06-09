@@ -36,6 +36,13 @@ private:
 
     kipl::base::TImage<float,3> m_volumeImage;
     QVector<uchar> m_volumeData;
+
+    int xLineRest;
+    int yLineRest;
+    int zLineRest;
+    int xLineSize;
+    int yLineSize;
+    int zLineSize;
 };
 
 #endif // VOLUMEDISPLAYWIDGET_H

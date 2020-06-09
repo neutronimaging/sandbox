@@ -58,3 +58,11 @@ void MainWindow::on_pushButtonRenderSphere_clicked()
 
     ui->widget->setVolume(img);
 }
+
+void MainWindow::on_pushButton_clicked()
+{
+    QString fname=QDir::homePath()+QString("/git/imagingsuite/core/kipl/UnitTests/data/multiframe.tif");
+
+    kipl::io::ReadTIFF(img,fname.toStdString().c_str());
+    ui->widget->setVolume(img);
+}

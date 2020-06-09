@@ -9,6 +9,8 @@ QT       -= gui
 TARGET = CoverageDummies
 TEMPLATE = lib
 
+CONFIG += c++11
+
 DEFINES += COVERAGEDUMMIES_LIBRARY
 
 # The following define makes your compiler emit warnings if you use

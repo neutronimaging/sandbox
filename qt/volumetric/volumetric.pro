@@ -6,6 +6,8 @@ android|ios|winrt {
     error( "Couldn't find the examples.pri file!" )
 }
 
+CONFIG += c++11
+
 SOURCES += main.cpp volumetric.cpp
 HEADERS += volumetric.h
 
