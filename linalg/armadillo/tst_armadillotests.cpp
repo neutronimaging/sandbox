@@ -1,6 +1,6 @@
 #include <QtTest>
 #include <iostream>
-#include <armadillo.h>
+#include <armadillo>
 // add necessary includes here
 
 using namespace std;
