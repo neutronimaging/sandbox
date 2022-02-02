@@ -41,6 +41,7 @@ int Processor::runp(float *pSrc, float *pDst, float value)
     std::list<std::thread> tlist;
     size_t begin=0;
     size_t end=blockSize;
+    cnt = 0;
     for (auto i=0; i<nThreads; ++i) {
         tlist.push_back(std::thread([=] { process(pSrc+begin, pSrc+end,pDst+begin,value); }));
         begin+=blockSize;
@@ -58,6 +59,7 @@ int Processor::runps(float *pSrc, float *pDst, float value)
     auto nThreads = std::thread::hardware_concurrency();
     std::list<std::thread> tlist;
 
+    cnt = 0;
     size_t end=nData-nThreads;
     for (auto i=0; i<nThreads; ++i) {
         tlist.push_back(std::thread([=] { process(pSrc+i, pSrc+end+i,pDst+i,nThreads,value); }));
@@ -82,6 +84,7 @@ int Processor::frunp(float *pSrc, float *pDst, float *k, int nK)
     std::list<std::thread> tlist;
     size_t begin=0;
     size_t end=blockSize;
+    cnt = 0;
     for (auto i=0; i<nThreads; ++i) {
         tlist.push_back(std::thread([=] { filter(pSrc+begin, pSrc+end,pDst+begin,k,nK); }));
         begin+=blockSize;
@@ -108,6 +111,9 @@ int Processor::f2runp(float *pSrc, float *pDst, float *k, int nK, size_t bSize)
     std::list<std::thread> tlist;
     size_t begin=0;
     size_t end=blockSize;
+
+    cnt = 0;
+
     for (auto i=0; i<nThreads; ++i) {
         tlist.push_back(std::thread([=] { filter(pSrc+begin, pSrc+end,pDst+begin,k,nK,bSize); }));
         begin+=blockSize;
@@ -224,6 +230,7 @@ int Processor::ftester(size_t N)
     const size_t blockSize=1024;
     auto start_time = std::chrono::high_resolution_clock::now();
     f2runp(data, dest1,k,nK,blockSize);
+    std::cout<<"cnt="<<cnt<<"\n";
 
     auto end_time = std::chrono::high_resolution_clock::now();
     auto tduration=end_time - start_time;
@@ -233,6 +240,7 @@ int Processor::ftester(size_t N)
 
     start_time = std::chrono::high_resolution_clock::now();
     f2run(data, dest2,k,nK,blockSize);
+    std::cout<<"cnt="<<cnt<<"\n";
 
     end_time = std::chrono::high_resolution_clock::now();
     auto sduration=end_time - start_time;
@@ -262,6 +270,7 @@ int Processor::process(float *srcStart, float *srcEnd, float *dst, float value)
     for (; s!=srcEnd; ++s, ++d)
     {
         (*d)+=powf((*s), value);
+        ++cnt;
     }
 
     return 0;
@@ -274,6 +283,7 @@ int Processor::process(float *srcStart, float *srcEnd, float *dst, size_t stride
         (*d)+=(*s) * value;
     }
 
+    ++cnt;
     return 0;
 }
 
@@ -297,7 +307,7 @@ int Processor::filter(float *srcStart, float *srcEnd, float *dst, float *k, int 
 int Processor::filter(float *srcStart, float *srcEnd, float *dst, float *k, int nK, size_t blockSize)
 {
     size_t N=(srcEnd-srcStart)/blockSize;
-
+    cnt = 0;
     for (size_t j=0; j<N; ++j)
     {
         float *s=srcStart+j*blockSize;
@@ -310,6 +320,7 @@ int Processor::filter(float *srcStart, float *srcEnd, float *dst, float *k, int 
                 d[m]+=s[m]*k[i];
             }
         }
+        ++cnt;
     }
 
     return 0;

@@ -2,6 +2,7 @@
 #define PROCESSOR_H
 
 #include <iostream>
+#include <atomic>
 
 class Processor
 {
@@ -19,6 +20,7 @@ public:
     int tester(size_t N);
     int ftester(size_t N);
 
+    std::atomic_int cnt;
 protected:
     int process(float *srcStart, float *srcEnd, float *dst, float value);
     int process(float *srcStart, float *srcEnd, float *dst, size_t stride,float value);
@@ -29,6 +31,7 @@ protected:
     float *dest1;
     float *dest2;
     float *dest3;
+
 };
 
 #endif // PROCESSOR_H
