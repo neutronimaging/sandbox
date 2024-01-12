@@ -41,7 +41,16 @@ int main()
     fs::create_directory("sandbox");
     fs::create_directory("sandbox/dir");
     fs::create_directories("sandbox/1/2/a");
-    fs::create_directory("sandbox/1/2/b");
+    
+    if (fs::create_directory("sandbox/1/2/b"))
+        std::cout<<"creating new\n";
+    else
+        std::cout<<"exists \n";
+
+    if (fs::create_directory("sandbox/1/2/b"))
+        std::cout<<"creating new\n";
+    else
+        std::cout<<"exists \n";
     fs::permissions("sandbox/1/2/b", fs::perms::others_all, fs::perm_options::remove);
     fs::create_directory("sandbox/1/2/c", "sandbox/1/2/b");
     std::system("ls -l sandbox/1/2");
