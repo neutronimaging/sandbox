@@ -15,6 +15,11 @@ set(METAL_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/adder.metal")
 set(AIR_FILE "${CMAKE_CURRENT_BINARY_DIR}/adder.air")
 set(METALLIB_FILE "${CMAKE_CURRENT_BINARY_DIR}/shader.metallib")
 
+set(METAL_CPP_DIR ${CMAKE_CURRENT_SOURCE_DIR}/metal-cpp)
+set(METAL_CPP_EXTENSIONS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/metal-cpp-extensions)
+include_directories(${METAL_CPP_DIR})
+include_directories(${METAL_CPP_EXTENSIONS_DIR})
+
 # Add a custom command to compile the .metal file to an .air file
 add_custom_command(
     OUTPUT ${AIR_FILE}
@@ -48,6 +53,15 @@ set_source_files_properties(${SHADER_PATH} PROPERTIES MACOSX_PACKAGE_LOCATION Re
 # Add the shader.metallib file to your target
 target_sources(${TARGET} PRIVATE ${SHADER_PATH})
 
-target_link_libraries(${TARGET} ${METAL_LIBRARY} ${FOUNDATION_LIBRARY} ${CORE_FOUNDATION_LIBRARY} ${OBJC_LIBRARY})
+# target_link_libraries(${TARGET} ${METAL_LIBRARY} ${FOUNDATION_LIBRARY} ${CORE_FOUNDATION_LIBRARY} ${OBJC_LIBRARY})
+# target_link_libraries(${TARGET} ${METAL_CPP_DIR}/libmetal-cpp.a)
+# target_link_libraries(${TARGET} ${METAL_CPP_EXTENSIONS_DIR}/libmetal-cpp-extensions.a)
+target_link_libraries(${TARGET} "-framework Metal"
+"-framework MetalKit"
+"-framework AppKit"
+"-framework Foundation"
+"-framework QuartzCore"
+)
+
 # Set your target to be a bundle
 set_target_properties(${TARGET} PROPERTIES MACOSX_BUNDLE TRUE)
