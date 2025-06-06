@@ -8,7 +8,7 @@
 
 int add_vectors(const std::vector<float>& a, const std::vector<float>& b, std::vector<float>& c) {
     for (size_t i = 0; i < a.size(); ++i) {
-        c[i] = a[i] + b[i];
+        c[i] = a[i]*a[i] + b[i]*b[i];
     }
     return 0;
 }
@@ -16,7 +16,7 @@ int add_vectors(const std::vector<float>& a, const std::vector<float>& b, std::v
 int main(int argc, const char * argv[]) {
     // Create some data
     std::clog<< "Creating data" <<std::endl;
-    size_t N = 1UL<<28;
+    size_t N = 1UL<<30;
     std::vector<float> a(N, 1.0f);
     std::vector<float> b(N, 2.0f);
     std::vector<float> c(N, 0.0f);

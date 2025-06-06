@@ -18,8 +18,8 @@ int main(int argc, char *argv[])
     }
 
     std::clog<<"Device created: "<<device<<std::endl; 
-    // MetalAdder *adder = new MetalAdder(device);
+    MetalAdder *adder = new MetalAdder(device);
 
-    // adder->sendComputeCommand(); 
-    // adder->verifyResults();
+    adder->sendComputeCommand(); 
+    adder->verifyResults();
 }
