@@ -1,21 +1,21 @@
-[project]
+[workspace]
 name = "binding-latency-benchmark"
 version = "0.1.0"
 channels = ["conda-forge"]
 platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
 
 [dependencies]
-python = ">=3.12,<3.14"
-cmake = ">=3.30"
-ninja = "*"
-pybind11 = "*"
-nanobind = "*"
-pandas = "*"
-numpy = "*"
-matplotlib = "*"
-notebook = "*"
-jupyter = "*"
-scipy = "*"
+python = ">=3.14.6,<3.15"
+cmake = ">=4.3.4,<5"
+ninja = ">=1.13.2,<2"
+pybind11 = ">=3.0.3,<4"
+nanobind = ">=2.13.0,<3"
+pandas = ">=3.0.3,<4"
+numpy = ">=2.5.0,<3"
+matplotlib = ">=3.11.0,<4"
+jupyter = ">=1.1.1,<2"
+notebook = ">=7.6.0,<8"
+scipy = ">=1.18.0,<2"
 
 [target.linux.dependencies]
 cxx-compiler = "*"
@@ -25,6 +25,18 @@ cxx-compiler = "*"
 
 [target.win.dependencies]
 vs2022_win-64 = "*"
+
+[target.linux-64.dependencies]
+cxx-compiler = ">=1.11.0,<2"
+
+[target.osx-arm64.dependencies]
+cxx-compiler = ">=1.11.0,<2"
+
+[target.osx-64.dependencies]
+cxx-compiler = ">=1.11.0,<2"
+
+[target.win-64.dependencies]
+vs2022_win-64 = ">=19.44.35207,<20"
 
 [tasks]
 configure = "cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release"

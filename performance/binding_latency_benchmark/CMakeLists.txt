@@ -27,3 +27,6 @@ target_link_libraries(pybind_add PRIVATE add_core)
 
 nanobind_add_module(nanobind_add src/nanobind_add.cpp)
 target_link_libraries(nanobind_add PRIVATE add_core)
+
+nanobind_add_module(cpp_add src/cpp_add.cpp)
+target_link_libraries(cpp_add PRIVATE add_core)

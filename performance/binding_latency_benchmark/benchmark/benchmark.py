@@ -10,6 +10,7 @@ import time
 from pathlib import Path
 from typing import Callable
 
+
 def py_add(a: float, b: float) -> float:
     """Pure Python baseline add function."""
     return a + b
@@ -32,6 +33,23 @@ def time_calls(func: Callable[[float, float], float], n_calls: int, repeats: int
         best = min(best, elapsed)
     return best
 
+def time_calls_cpp(func: Callable[[float, float], float], n_calls: int, repeats: int) -> float:
+    """Return best execution time in seconds for n_calls function calls."""
+    
+
+    best = float("inf")
+    for _ in range(repeats):
+        gc.disable()
+        t0 = time.perf_counter()
+        acc = func(n_calls, 1.0, 1.0)
+        elapsed = time.perf_counter() - t0
+        gc.enable()
+
+        # Prevent the loop from becoming semantically irrelevant.
+        if acc <= 0.0:
+            raise RuntimeError("unexpected benchmark accumulator value")
+        best = min(best, elapsed)
+    return best
 
 def main() -> None:
     parser = argparse.ArgumentParser()
@@ -72,6 +90,8 @@ def main() -> None:
         "nanobind": importlib.import_module("nanobind_add"),
     }
 
+    m = importlib.import_module("cpp_add")
+
     rows: list[dict[str, str | int | float]] = []
     for n_calls in args.loops:
         for binding_name, module in modules.items():
@@ -85,6 +105,15 @@ def main() -> None:
             )
             print(f"{binding_name:8s} {n_calls:9d} calls: {elapsed:.6e} s")
 
+
+        elapsed = time_calls_cpp(m.add, n_calls, args.repeats)
+        rows.append(
+            {
+                "binding": "cpp",
+                "number of calls": n_calls,
+                "execution time": elapsed,
+            }
+        )
     with args.output.open("w", newline="") as f:
         writer = csv.DictWriter(
             f,
